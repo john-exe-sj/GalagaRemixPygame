@@ -6,7 +6,7 @@ class GruntEnemyShip(Sprite):
 
   def __init__(self): 
     super().__init__()
-    fixedImage = pygame.transform.scale(pygame.image.load('./images/enemyship.png'), (75,75))
+    fixedImage = pygame.transform.scale(pygame.image.load('./images/enemyship.png'), Constants.ENEMY_SHIP_DIMMENSIONS)
     self.image = pygame.transform.rotate(fixedImage, 180)
     self.rect = self.image.get_rect()
     self.velocity = Constants.SHIP_VELOCITY

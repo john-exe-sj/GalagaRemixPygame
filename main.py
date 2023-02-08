@@ -2,7 +2,7 @@ import pygame, sys
 from pygame.locals import QUIT
 import Constants
 from ShipController import Ship
-#from EnemyController import GruntEnemyShip # TODO: generate ships and create their AI
+from EnemyController import GruntEnemyShip # TODO: generate ships and create their AI
 from GameField import GameStatus
 from BulletController import updateBullets
 
@@ -13,9 +13,9 @@ if __name__ == "__main__":
 
   gameStat = GameStatus()
   ship = Ship()
-  #enemyShip = GruntEnemyShip()
+  enemyShip = GruntEnemyShip()
   #bullet = Bullet((ship.rect.x, ship.rect.y), True)
-  gameStat.addSprites([ship])
+  gameStat.addSprites([ship, enemyShip])
 
 
   while gameStat.isGameStillRunning:
