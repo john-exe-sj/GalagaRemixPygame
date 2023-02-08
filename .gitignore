@@ -1,1 +1,5 @@
 __pycache__
+poetry.*
+replit.*
+.replit
+pyproject.toml

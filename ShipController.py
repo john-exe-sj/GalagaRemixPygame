@@ -8,7 +8,7 @@ from BulletController import addBullet
 class Ship(Sprite):
   def __init__(self): 
     super().__init__()
-    fixedImage = pygame.transform.scale(pygame.image.load('./images/ship.png'), (150,150))
+    fixedImage = pygame.transform.scale(pygame.image.load('./images/ship.png'), Constants.SHIP_DIMMENSION)
     self.image =  fixedImage
     self.rect = self.image.get_rect()
     self.velocity = Constants.SHIP_VELOCITY

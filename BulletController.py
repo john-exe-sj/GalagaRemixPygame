@@ -6,7 +6,7 @@ import pygame
 class Bullet(Sprite):
     def __init__(self, coord: tuple, isHeroBullet: bool): 
         super().__init__()
-        fixedImage = pygame.transform.scale(pygame.image.load('./images/bullet.png'), (10,20))
+        fixedImage = pygame.transform.scale(pygame.image.load('./images/bullet.png'), Constants.BULLET_DIMMENSIONS)
         self.image =  fixedImage
         self.rect = self.image.get_rect()
         self.rect.x = coord[0] + Constants.BULLET_OFFSET_X
