@@ -13,9 +13,9 @@ if __name__ == "__main__":
 
   gameStat = GameStatus()
   ship = Ship()
-  enemyShip = GruntEnemyShip()
+  #enemyShip = GruntEnemyShip()
   #bullet = Bullet((ship.rect.x, ship.rect.y), True)
-  gameStat.addSprites([ship, enemyShip])
+  gameStat.addSprites([ship])
 
 
   while gameStat.isGameStillRunning:

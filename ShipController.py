@@ -20,13 +20,13 @@ class Ship(Sprite):
     curr_x = self.rect.x
     curr_y = self.rect.y
 
-    #print(curr_x, " : ", curr_y)
+    print("X-", curr_x, " : ", "Y-", curr_y)
     keys = pygame.key.get_pressed()
     if(keys[pygame.K_a] and curr_x >= Constants.X_SHIP_LEFTBOUND): #left
-      self.rect.x -= self.velocity 
+      self.rect.x = self.rect.x - self.velocity 
   
     if(keys[pygame.K_d] and curr_x <= Constants.X_SHIP_RIGHTBOUND): #right
-      self.rect.x += self.velocity 
+      self.rect.x = self.rect.x + self.velocity 
 
     if(keys[pygame.K_w] and curr_y >= Constants.Y_SHIP_UPPERBOUND): #up
       self.rect.y -= self.velocity
@@ -38,4 +38,5 @@ class Ship(Sprite):
 
   def generateBullet(self, gameStat: GameStatus) -> None: 
     #print("Ship has fired")
+    #gameStat.isGameStillRunning = False
     addBullet(gameStat, (self.rect.x, self.rect.y), Constants.IS_HERO_BULLET)

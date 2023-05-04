@@ -1,5 +1,4 @@
 import pygame
-import Constants
 
 
 class Sprite(pygame.sprite.Sprite):
