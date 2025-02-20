@@ -27,5 +27,6 @@ class GameStatus():
 
   def updateSprites(self, screen: pygame.Surface) -> None:
     self.sprites.update()
-    self.sprites.draw(screen)
+    for sprite in self.sprites: 
+      screen.blit(sprite.image, sprite.rect)
     self.dt = self.clock.tick(60)

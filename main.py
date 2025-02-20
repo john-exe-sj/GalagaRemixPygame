@@ -21,6 +21,8 @@ if __name__ == "__main__":
   while gameStat.isGameStillRunning:
     for event in pygame.event.get(): #grabs all the events in the list
         if event.type == QUIT: #exit button in the window.
+          gameStat.isGameStillRunning = False
+          print(gameStat.isGameStillRunning)
           pygame.quit()
           sys.exit()
         
@@ -36,4 +38,3 @@ if __name__ == "__main__":
     SCREEN.fill(Constants.SCREEN_COLOR)
     gameStat.updateSprites(SCREEN)
     pygame.display.flip()
-    pygame.display.update()
