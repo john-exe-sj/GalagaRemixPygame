@@ -18,9 +18,6 @@ class Ship(Sprite):
     self.velocity = Constants.SHIP_VELOCITY
     self.rect.x = Constants.X_SHIP_STARTPOINT
     self.rect.y = Constants.Y_SHIP_STARTPOINT
-    self.angle = 0  # Track rotation angle
-
-
 
   def move(self, gameStat: GameStatus) -> None: 
 
@@ -47,4 +44,4 @@ class Ship(Sprite):
     gameStat.updateShipCoord((self.rect.x, self.rect.y))
 
   def generateBullet(self, gameStat: GameStatus) -> None: 
-    addBullet(gameStat, (self.rect.x, self.rect.y), Constants.IS_HERO_BULLET)
+    addBullet(gameStat, (self.rect.x, self.rect.y), Constants.IS_HERO_BULLET, self.angle + Constants.SHIP_ANGLE_OFFSET)

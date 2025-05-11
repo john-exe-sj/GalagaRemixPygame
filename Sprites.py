@@ -26,25 +26,37 @@ def calculateAngleToTarget(origin_x, origin_y, target_x, target_y, offset):
   v_angle = atan2(v_y, -v_x)
   return degrees(v_angle) + offset
 
+def calculateTrajectoryVector(origin_x, origin_y, target_x, target_y):
+  v_x, v_y = target_x - origin_x, target_y - origin_y
+  unit_vector = sqrt(v_x ** 2 + v_y ** 2)
+  try: 
+    return (v_x / unit_vector, v_y / unit_vector)
+  except Exception as e: 
+    print(e, "Failure to calculate vector in Sprites Wrapper Class")
 
 class Sprite(Sprite):
 
   def __init__(self):
     super().__init__()
+    self.angle: int
   
   def rotateSprite(self, angle_of_change): 
     rotate(self, angle_of_change)
 
-  def pointTowardsMousePointer(self, offset: int):
+  def pointTowardsMousePointer(self, offset=0):
     mouse_x, mouse_y = pygame.mouse.get_pos()
     print(f"{mouse_x}: {mouse_y}")
     
-    angle = calculateAngleToTarget(mouse_x, mouse_y, self.rect.x, self.rect.y, offset)
+    self.angle = calculateAngleToTarget(mouse_x, mouse_y, self.rect.x, self.rect.y, offset)
     
-    self.image = pygame.transform.rotate(self.original_image, angle)
+    self.image = pygame.transform.rotate(self.original_image, self.angle)
     old_center = self.rect.center
     self.rect = self.image.get_rect()
     self.rect.center = old_center
+
+  def calculateTrajectoryToMouse(self): 
+    mouse_x, mouse_y = pygame.mouse.get_pos()
+    return calculateTrajectoryVector(self.rect.x, self.rect.y, mouse_x, mouse_y)
 
 
      
