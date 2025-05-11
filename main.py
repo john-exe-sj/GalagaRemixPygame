@@ -17,8 +17,9 @@ if __name__ == "__main__":
   #bullet = Bullet((ship.rect.x, ship.rect.y), True)
   gameStat.addSprites([ship])
 
-
+  
   while gameStat.isGameStillRunning:
+
     for event in pygame.event.get(): #grabs all the events in the list
         if event.type == QUIT: #exit button in the window.
           gameStat.isGameStillRunning = False

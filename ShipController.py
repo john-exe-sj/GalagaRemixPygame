@@ -6,7 +6,9 @@ import math  # Add this import at the top with the others
 
 from BulletController import addBullet
 
+SHIP_ANGLE_OFFSET = 110
 class Ship(Sprite):
+
   def __init__(self): 
     super().__init__()
     # Store the original image for rotation
@@ -19,19 +21,6 @@ class Ship(Sprite):
     self.angle = 0  # Track rotation angle
 
 
-  def rotate(self, angle_change):
-    # Update the angle
-    self.angle += angle_change
-    # Keep angle between 0 and 360 degrees
-    self.angle = self.angle % 360
-    # Rotate the image
-    self.image = pygame.transform.rotate(self.original_image, self.angle)
-    # Get the new rect and maintain the center position
-    old_center = self.rect.center
-    self.rect = self.image.get_rect()
-    self.rect.center = old_center
-
-
 
   def move(self, gameStat: GameStatus) -> None: 
 
@@ -40,13 +29,8 @@ class Ship(Sprite):
 
     keys = pygame.key.get_pressed()
 
-    """
-    # Add rotation controls using Q and E keys
-    if keys[pygame.K_q]:  # Rotate counterclockwise
-      self.rotate(5)
-    if keys[pygame.K_e]:  # Rotate clockwise
-      self.rotate(-5)
-    """
+    self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
+    
 
     if(keys[pygame.K_a] and curr_x >= Constants.X_SHIP_LEFTBOUND): #left
       self.rect.x -= self.velocity 
@@ -63,6 +47,4 @@ class Ship(Sprite):
     gameStat.updateShipCoord((self.rect.x, self.rect.y))
 
   def generateBullet(self, gameStat: GameStatus) -> None: 
-    #print("Ship has fired")
-    #gameStat.isGameStillRunning = False
     addBullet(gameStat, (self.rect.x, self.rect.y), Constants.IS_HERO_BULLET)
