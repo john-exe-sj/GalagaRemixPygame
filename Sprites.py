@@ -32,9 +32,7 @@ def calculateAngleToTarget(origin_x, origin_y, target_x, target_y, old_angle, of
   v_x, v_y = target_x - origin_x, target_y - origin_y
   v_angle = atan2(v_y, -v_x)
 
-  print(calculate_distance(origin_x, origin_y, target_x, target_y))
-
-  if abs(calculate_distance(origin_x, origin_y, target_x, target_y)) < 1: 
+  if abs(calculate_distance(origin_x, origin_y, target_x, target_y)) < 70: 
     print("case 1")
     return old_angle
   else: 

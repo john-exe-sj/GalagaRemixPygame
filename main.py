@@ -8,7 +8,7 @@ from BulletController import updateBullets
 
 if __name__ == "__main__": 
   pygame.init()
-  SCREEN = pygame.display.set_mode(Constants.SCREEN_SIZE)
+  SCREEN = pygame.display.set_mode(Constants.SCREEN_SIZE, pygame.RESIZABLE)
   pygame.display.set_caption('First Game')
 
   gameStat = GameStatus()
@@ -27,9 +27,9 @@ if __name__ == "__main__":
           pygame.quit()
           sys.exit()
         
-        if event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_SPACE:
-              ship.generateBullet(gameStat)
+        if event.type == pygame.MOUSEBUTTONDOWN: # tell pygame to track our "mouse-events" aka if a button was clicked. 
+          if pygame.mouse.get_pressed()[0]: # checks to see if the left button was clicked.
+            ship.generateBullet(gameStat)
   
     ship.move(gameStat)
     updateBullets(gameStat)
