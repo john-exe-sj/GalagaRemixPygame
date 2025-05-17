@@ -2,7 +2,6 @@ from Sprites import Sprite
 import Constants
 import pygame
 from GameField import GameStatus
-import math  # Add this import at the top with the others
 
 from BulletController import addBullet
 
@@ -28,7 +27,6 @@ class Ship(Sprite):
 
     self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
     
-
     if(keys[pygame.K_a] and curr_x >= Constants.X_SHIP_LEFTBOUND): #left
       self.rect.x -= self.velocity 
   
@@ -44,4 +42,5 @@ class Ship(Sprite):
     gameStat.updateShipCoord((self.rect.x, self.rect.y))
 
   def generateBullet(self, gameStat: GameStatus) -> None: 
-    addBullet(gameStat, (self.rect.x, self.rect.y), Constants.IS_HERO_BULLET, self.angle + Constants.SHIP_ANGLE_OFFSET)
+
+    addBullet(gameStat, (self.rect.x, self.rect.y), self.angle + Constants.SHIP_ANGLE_OFFSET)
