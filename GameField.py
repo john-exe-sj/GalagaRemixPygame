@@ -5,7 +5,8 @@ from BulletController import Bullet
 class GameStatus(): 
 
   def __init__(self):
-    self.sprites = pygame.sprite.Group()
+    self.player_sprites = pygame.sprite.Group()
+    self.enemy_sprites = pygame.sprite.Group()
     self.score = 0
     self.isGameStillRunning = True
     self.clock = pygame.time.Clock()
@@ -16,17 +17,17 @@ class GameStatus():
   def updateShipCoord(self, coord: tuple) -> None: 
     self.shipCoordinates = coord
 
-  def addSprites(self, listOfSprites: list) -> None: 
-    self.sprites.add(listOfSprites)
+  def addPlayerSprites(self, listOfSprites: list) -> None: 
+    self.player_sprites.add(listOfSprites)
 
-  def addSprite(self, sprite: Sprite) -> None: 
-    self.sprites.add(sprite)
+  def addPlayerSprite(self, sprite: Sprite) -> None: 
+    self.player_sprites.add(sprite)
 
-  def removeSprite(self, sprite: Sprite) -> None: 
-    self.sprites.remove(sprite)
+  def removeRemoveSprite(self, sprite: Sprite) -> None: 
+    self.player_sprites.remove(sprite)
 
   def updateSprites(self, screen: pygame.Surface) -> None:
-    self.sprites.update()
-    for sprite in self.sprites: 
+    self.player_sprites.update()
+    for sprite in self.player_sprites: 
       screen.blit(sprite.image, sprite.rect)
     self.dt = self.clock.tick(60)

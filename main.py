@@ -5,6 +5,7 @@ from ShipController import Ship
 from EnemyController import GruntEnemyShip # TODO: generate ships and create their AI
 from GameField import GameStatus
 from BulletController import updateBullets
+from Sprites import calculate_distance
 
 if __name__ == "__main__": 
   pygame.init()
@@ -13,9 +14,7 @@ if __name__ == "__main__":
 
   gameStat = GameStatus()
   ship = Ship()
-  #enemyShip = GruntEnemyShip()
-  #bullet = Bullet((ship.rect.x, ship.rect.y), True)
-  gameStat.addSprites([ship])
+  gameStat.addPlayerSprite(ship)
 
   
   while gameStat.isGameStillRunning:
@@ -23,12 +22,19 @@ if __name__ == "__main__":
     for event in pygame.event.get(): #grabs all the events in the list
         if event.type == QUIT: #exit button in the window.
           gameStat.isGameStillRunning = False
-          print(gameStat.isGameStillRunning)
+
           pygame.quit()
           sys.exit()
         
         if event.type == pygame.MOUSEBUTTONDOWN: # tell pygame to track our "mouse-events" aka if a button was clicked. 
-          if pygame.mouse.get_pressed()[0]: # checks to see if the left button was clicked.
+
+          if (pygame.mouse.get_pressed()[0] and 
+              calculate_distance(
+                ship.rect.x, 
+                ship.rect.y, 
+                pygame.mouse.get_pos()[0], 
+                pygame.mouse.get_pos()[1]) > 250
+          ): # checks to see if the left button was clicked and making sure that the mouse is at an appropriate distance. 
             ship.generateBullet(gameStat)
   
     ship.move(gameStat)
