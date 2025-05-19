@@ -36,6 +36,7 @@ if __name__ == "__main__":
                 pygame.mouse.get_pos()[1]) > 250
           ): # checks to see if the left button was clicked and making sure that the mouse is at an appropriate distance. 
             ship.generateBullet(gameStat)
+
   
     ship.move(gameStat)
     updateBullets(gameStat)

@@ -20,3 +20,7 @@ BULLET_OFFSET_Y = 25
 BULLET_VELOCITY = 50
 BULLET_ANGLE_OFFSET = 90
 BULLET_DIMMENSIONS = (10,20)
+
+# Sound File Locations: 
+PLAYER_LASER_SOUND_FILE = "./sounds/laser-2.wav"
+ENEMY_LASER_SOUND_FILE = "./sounds/laser-1.wav"

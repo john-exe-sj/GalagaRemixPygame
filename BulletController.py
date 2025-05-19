@@ -7,6 +7,7 @@ import math
 import pygame
 from Sprites import Sprite
 import Constants
+from SoundController import playPlayerLaserShot
 
 class Bullet(Sprite):
     """Represents a bullet in the game that can be fired by the player's ship."""
@@ -80,6 +81,7 @@ def addBullet(gameStat, coord: tuple, angle: int) -> None:
     newBullet = Bullet(coord, angle)
     gameStat.listOfActiveBullets.append(newBullet)
     gameStat.addPlayerSprite(newBullet)
+    playPlayerLaserShot()
   
 def removeBullet(gameStat, bullet: Bullet): 
     """Remove a bullet from the game.
