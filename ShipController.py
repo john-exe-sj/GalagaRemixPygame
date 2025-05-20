@@ -31,8 +31,7 @@ class Ship(Sprite):
 
     def initializePosition(self):
         """Set initial ship position"""
-        self.rect.x = Constants.X_SHIP_STARTPOINT
-        self.rect.y = Constants.Y_SHIP_STARTPOINT
+        self.rect.center  = pygame.display.get_surface().get_rect().center
 
     def move(self) -> None: 
         """Update ship position based on keyboard input and screen boundaries.
