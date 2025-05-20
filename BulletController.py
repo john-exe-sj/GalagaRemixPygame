@@ -27,15 +27,9 @@ class Bullet(Sprite):
         self.image = self.original_image
         self.rect = self.image.get_rect()
         
-        # Calculate ship's center position
-        ship_center_x = coord[0] + Constants.SHIP_DIMMENSION[0] // 2
-        ship_center_y = coord[1] + Constants.SHIP_DIMMENSION[1] // 2
-        
         # Calculate bullet spawn position using ship's diagonal for consistent distance
-        spawn_distance = math.sqrt(Constants.SHIP_DIMMENSION[0]**2 + Constants.SHIP_DIMMENSION[1]**2) // 2
-        rad_angle = math.radians(angle)
-        self.rect.x = ship_center_x + math.cos(rad_angle) * spawn_distance
-        self.rect.y = ship_center_y + math.sin(rad_angle) * spawn_distance
+        self.rect.x = coord[0]
+        self.rect.y = coord[1]
         
         self.angle = angle
         self.pointTowardsMousePointer(Constants.BULLET_ANGLE_OFFSET)

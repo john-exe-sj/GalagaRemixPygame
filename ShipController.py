@@ -69,4 +69,4 @@ class Ship(Sprite):
         Args:
             gameStat: The game state object
         """
-        addBullet(gameStat, (self.rect.x, self.rect.y), self.angle + Constants.SHIP_ANGLE_OFFSET)
+        addBullet(gameStat, self.rect.center, self.angle + Constants.SHIP_ANGLE_OFFSET) # add bullet into the game, giving the ship's center position/coordinates. 
