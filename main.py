@@ -6,6 +6,7 @@ from EnemyController import GruntEnemyShip # TODO: generate ships and create the
 from GameField import GameStatus
 from BulletController import updateBullets
 from Sprites import calculate_distance
+from AsteroidController import Asteroid, updateAsteroids
 
 if __name__ == "__main__": 
   pygame.init()
@@ -14,7 +15,11 @@ if __name__ == "__main__":
 
   gameStat = GameStatus()
   ship = Ship()
+
   gameStat.addPlayerSprite(ship)
+
+  for _ in range(10): 
+    gameStat.addAsteroidSprite(Asteroid(ship))
 
   
   while gameStat.isGameStillRunning:
@@ -38,10 +43,9 @@ if __name__ == "__main__":
             ship.generateBullet(gameStat)
 
   
-    ship.move(gameStat)
+    ship.move()
     updateBullets(gameStat)
-    gameStat.shipHasFired = False
-
+    updateAsteroids(gameStat)
     
     SCREEN.fill(Constants.SCREEN_COLOR)
     gameStat.updateSprites(SCREEN)

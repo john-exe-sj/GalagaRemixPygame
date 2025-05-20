@@ -8,13 +8,13 @@ import pygame
 from Sprites import Sprite
 import Constants
 from SoundController import playPlayerLaserShot
+from GameField import GameStatus
 
 class Bullet(Sprite):
     """Represents a bullet in the game that can be fired by the player's ship."""
     
     def __init__(self, coord: tuple, angle: int): 
         """Initialize a new bullet at the given coordinates and angle.
-        
         Args:
             coord (tuple): The (x, y) coordinates of the ship
             angle (int): The angle in degrees at which the bullet should be fired
@@ -39,11 +39,10 @@ class Bullet(Sprite):
         
         self.angle = angle
         self.pointTowardsMousePointer(Constants.BULLET_ANGLE_OFFSET)
-        self.trajectory_vx_vy = self.calculateTrajectoryToMouse()
+        self.trajectory_vx_vy = self.calculateTrajectoryToMouse() # TODO: Once enemy ships are added. Re-configure or make new bullet class
 
-    def updateBulletPosition(self, gameStat): 
+    def updateBulletPosition(self): 
         """Update bullet position and check if it should be removed.
-        
         Args:
             gameStat: The game state object containing screen dimensions
         """
@@ -59,37 +58,32 @@ class Bullet(Sprite):
             self.rect.y >= height_of_screen or 
             self.rect.x <= 0 or 
             self.rect.x >= width_of_screen):
-            removeBullet(gameStat, self)
+            removeBullet(self)
 
-def updateBullets(gameStat) -> None: 
+def updateBullets(gameStat:GameStatus) -> None: 
     """Update all active bullets in the game.
-    
     Args:
         gameStat: The game state object containing active bullets
     """
-    for bullet in gameStat.listOfActiveBullets: 
-        bullet.updateBulletPosition(gameStat)
+    for bullet in gameStat.player_bullet_sprites: 
+        bullet.updateBulletPosition()
 
-def addBullet(gameStat, coord: tuple, angle: int) -> None:
+def addBullet(gameStat: GameStatus, coord: tuple, angle: int) -> None:
     """Create and add a new bullet to the game.
-    
     Args:
         gameStat: The game state object
         coord (tuple): The (x, y) coordinates where the bullet should spawn
         angle (int): The angle in degrees at which the bullet should be fired
     """
     newBullet = Bullet(coord, angle)
-    gameStat.listOfActiveBullets.append(newBullet)
-    gameStat.addPlayerSprite(newBullet)
+    gameStat.addPlayerBulletSprite(newBullet)
     playPlayerLaserShot()
   
-def removeBullet(gameStat, bullet: Bullet): 
-    """Remove a bullet from the game.
-    
+def removeBullet(bullet: Bullet): 
+    """Remove a bullet from the game and ensure proper cleanup.
     Args:
-        gameStat: The game state object
         bullet (Bullet): The bullet to remove
     """
-    gameStat.listOfActiveBullets.remove(bullet)
-    bullet.kill()
+    bullet.kill()  # Removes from all sprite groups
+    del bullet     # Explicitly delete the reference
 
