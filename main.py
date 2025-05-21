@@ -7,6 +7,7 @@ from GameField import GameStatus
 from BulletController import updateBullets
 from Sprites import calculate_distance
 from AsteroidController import Asteroid, updateAsteroids
+from CrosshairController import Crosshair
 
 if __name__ == "__main__": 
   pygame.init()
@@ -15,8 +16,10 @@ if __name__ == "__main__":
 
   gameStat = GameStatus()
   ship = Ship()
+  crosshair = Crosshair()
 
   gameStat.addPlayerSprite(ship)
+  gameStat.addPlayerSprite(crosshair)
 
   for _ in range(10): 
     gameStat.addAsteroidSprite(Asteroid(ship))
@@ -44,6 +47,7 @@ if __name__ == "__main__":
 
   
     ship.move()
+    crosshair.move()
     updateBullets(gameStat)
     updateAsteroids(gameStat)
     

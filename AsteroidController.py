@@ -9,7 +9,7 @@ class Asteroid(Sprite):
         super().__init__()
         self.initializeImage()
         self.positionRandomlyWithinScreen()
-        self.calculateTrajectory(ship)
+        self.calculateTrajectoryToSprite(ship)
         
     
     def initializeImage(self):
@@ -29,14 +29,6 @@ class Asteroid(Sprite):
         # Position asteroid randomly within screen bounds
         self.rect.x = randint(0, screen_width - self.rect.width)
         self.rect.y = randint(0, screen_height - self.rect.height)
-    
-    def calculateTrajectory(self, ship:Ship):
-        self.trajectory_vx_vy = calculateTrajectoryVector(
-            self.rect.x, 
-            self.rect.y, 
-            ship.rect.x, 
-            ship.rect.y
-        )
 
     def move(self):
         v_x, v_y = self.trajectory_vx_vy

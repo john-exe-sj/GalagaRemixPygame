@@ -23,7 +23,7 @@ class Ship(Sprite):
     def initializeImage(self):
         """Initialize the ship's image and rect"""
         self.original_image = pygame.transform.scale(
-            pygame.image.load('./images/ship.png'), 
+            pygame.image.load(Constants.SHIP_IMAGE_FILE), 
             Constants.SHIP_DIMMENSION
         )
         self.image = self.original_image

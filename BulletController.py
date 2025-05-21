@@ -21,7 +21,7 @@ class Bullet(Sprite):
         """
         super().__init__()
         self.original_image = pygame.transform.scale(
-            pygame.image.load('./images/bullet.png'), 
+            pygame.image.load(Constants.BULLET_IMAGE_FILE), 
             Constants.BULLET_DIMMENSIONS
         )
         self.image = self.original_image

@@ -106,7 +106,14 @@ class Sprite(Sprite):
         """
         mouse_x, mouse_y = pygame.mouse.get_pos()
         # Calculate angle from sprite to mouse (origin to target)
-        self.angle = calculateAngleToTarget(self.rect.x, self.rect.y, mouse_x, mouse_y, self.angle, offset)
+        self.angle = calculateAngleToTarget(
+            self.rect.center[0], 
+            self.rect.center[1], 
+            mouse_x, 
+            mouse_y, 
+            self.angle, 
+            offset
+        )
         
         self.image = pygame.transform.rotate(self.original_image, self.angle)
         old_center = self.rect.center
@@ -115,7 +122,6 @@ class Sprite(Sprite):
 
     def calculateTrajectoryToMouse(self): 
         """Calculate a normalized vector pointing towards the mouse.
-        
         Returns:
             tuple: Normalized (x, y) vector pointing towards mouse position
         """
@@ -130,10 +136,15 @@ class Sprite(Sprite):
         except Exception as e:
             print(e, "Failure to calculate vector in calculateTrajectoryToMouse")
             return (0, 0)  # Return zero vector if calculation fails
-
-
-     
-
-
-  
-    
+        
+    def calculateTrajectoryToSprite(self, sprite:Sprite): 
+        """Calculates a normalized vector pointing towards another Sprite object. 
+        Args: 
+            sprite: a specified sprite to create a trajectory for
+        """
+        self.trajectory_vx_vy = calculateTrajectoryVector(
+            self.rect.x, 
+            self.rect.y, 
+            sprite.rect.x, 
+            sprite.rect.y
+        )
