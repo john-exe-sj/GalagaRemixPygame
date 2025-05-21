@@ -4,3 +4,4 @@ replit.*
 .replit
 pyproject.toml
 .DS_Store
+.venv
