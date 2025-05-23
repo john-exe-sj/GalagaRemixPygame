@@ -16,19 +16,10 @@ class Ship(Sprite):
     def __init__(self): 
         """Initialize the player's ship with default position and properties."""
         super().__init__()
-        self.initializeImage()
+        self.initializeImage(Constants.SHIP_IMAGE_FILE, Constants.SHIP_DIMMENSION)
         self.initializePosition()
         self.velocity = Constants.SHIP_VELOCITY
-
-    def initializeImage(self):
-        """Initialize the ship's image and rect"""
-        self.original_image = pygame.transform.scale(
-            pygame.image.load(Constants.SHIP_IMAGE_FILE), 
-            Constants.SHIP_DIMMENSION
-        )
-        self.image = self.original_image
-        self.rect = self.image.get_rect()
-
+        
     def initializePosition(self):
         """Set initial ship position"""
         self.rect.center  = pygame.display.get_surface().get_rect().center
@@ -44,8 +35,8 @@ class Ship(Sprite):
 
     def handleMovement(self):
         """Handle ship movement based on key presses"""
-        curr_x = self.rect.x
-        curr_y = self.rect.y
+        curr_x, curr_y = self.rect.center
+        
         width_of_screen, height_of_screen = pygame.display.get_surface().get_size()
 
         keys = pygame.key.get_pressed()

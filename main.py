@@ -36,16 +36,10 @@ if __name__ == "__main__":
         
         if event.type == pygame.MOUSEBUTTONDOWN: # tell pygame to track our "mouse-events" aka if a button was clicked. 
 
-          if (pygame.mouse.get_pressed()[0] and 
-              calculate_distance(
-                ship.rect.x, 
-                ship.rect.y, 
-                pygame.mouse.get_pos()[0], 
-                pygame.mouse.get_pos()[1]) > 250
-          ): # checks to see if the left button was clicked and making sure that the mouse is at an appropriate distance. 
+          if pygame.mouse.get_pressed()[0]: # checks to see if the left button was clicked and making sure that the mouse is at an appropriate distance. 
             ship.generateBullet(gameStat)
 
-  
+
     ship.move()
     crosshair.move()
     updateBullets(gameStat)

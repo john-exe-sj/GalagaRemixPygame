@@ -20,20 +20,13 @@ class Bullet(Sprite):
             angle (int): The angle in degrees at which the bullet should be fired
         """
         super().__init__()
-        self.original_image = pygame.transform.scale(
-            pygame.image.load(Constants.BULLET_IMAGE_FILE), 
-            Constants.BULLET_DIMMENSIONS
-        )
-        self.image = self.original_image
-        self.rect = self.image.get_rect()
+        self.initializeImage(Constants.BULLET_IMAGE_FILE, Constants.BULLET_DIMMENSIONS)
+        self.rect.center = coord
         
-        # Calculate bullet spawn position using ship's diagonal for consistent distance
-        self.rect.x = coord[0]
-        self.rect.y = coord[1]
-        
-        self.angle = angle
-        self.pointTowardsMousePointer(Constants.BULLET_ANGLE_OFFSET)
-        self.trajectory_vx_vy = self.calculateTrajectoryToMouse() # TODO: Once enemy ships are added. Re-configure or make new bullet class
+        #self.angle = angle
+        self.rotateSprite(angle + Constants.BULLET_ANGLE_OFFSET)
+        #self.pointTowardsMousePointer(Constants.BULLET_ANGLE_OFFSET)
+        self.calculateTrajectoryFromAngle(angle) # TODO: Once enemy ships are added. Re-configure or make new bullet class
 
     def updateBulletPosition(self): 
         """Update bullet position and check if it should be removed.

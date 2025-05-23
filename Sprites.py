@@ -4,7 +4,7 @@ Provides base sprite functionality and utility functions for game objects.
 Handles rotation, angle calculations, and trajectory computations.
 """
 
-from math import sqrt, atan2, degrees
+from math import sqrt, atan2, degrees, radians, cos, sin
 from pygame.sprite import Sprite
 import pygame
 
@@ -89,10 +89,18 @@ class Sprite(Sprite):
         """Initialize the sprite with default properties."""
         super().__init__()
         self.angle = 0
+
+    def initializeImage(self, image_file: str, dimmenions: tuple):
+        """Initialize the ship's image and rect"""
+        self.original_image = pygame.transform.scale(
+            pygame.image.load(image_file), 
+            dimmenions
+        )
+        self.image = self.original_image
+        self.rect = self.image.get_rect()
   
     def rotateSprite(self, angle_of_change): 
         """Rotate the sprite by the given angle.
-        
         Args:
             angle_of_change: The angle to rotate by in degrees
         """
@@ -100,7 +108,6 @@ class Sprite(Sprite):
 
     def pointTowardsMousePointer(self, offset=0):
         """Make the sprite point towards the current mouse position.
-        
         Args:
             offset: Additional angle offset
         """
@@ -148,3 +155,18 @@ class Sprite(Sprite):
             sprite.rect.x, 
             sprite.rect.y
         )
+
+    def calculateTrajectoryFromAngle(self, angle: float) -> tuple:
+        """Calculate a normalized vector based on an angle in degrees.
+        Args:
+            angle (float): The angle in degrees (0 is right, 90 is down, 180 is left, 270 is up)
+        Returns:
+        tuple: Normalized (x, y) vector pointing in the direction of the angle
+        """
+        # Convert angle to radians
+        angle_rad = radians(angle)
+        # Calculate the x and y components
+        # Note: In Pygame, y is positive downward, so we negate the y component
+        x = cos(angle_rad)
+        y = -sin(angle_rad)
+        self.trajectory_vx_vy = (x, y)
