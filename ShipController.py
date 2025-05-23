@@ -9,18 +9,17 @@ import Constants
 from GameField import GameStatus
 from BulletController import addBullet
 
-SHIP_ANGLE_OFFSET = 110
 class Ship(Sprite):
     """Represents the player's ship in the game."""
     
-    def __init__(self): 
+    def __init__(self) -> None: 
         """Initialize the player's ship with default position and properties."""
         super().__init__()
         self.initializeImage(Constants.SHIP_IMAGE_FILE, Constants.SHIP_DIMMENSION)
         self.initializePosition()
         self.velocity = Constants.SHIP_VELOCITY
         
-    def initializePosition(self):
+    def initializePosition(self) -> None:
         """Set initial ship position"""
         self.rect.center  = pygame.display.get_surface().get_rect().center
 
@@ -33,7 +32,7 @@ class Ship(Sprite):
         self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
         self.handleMovement()
 
-    def handleMovement(self):
+    def handleMovement(self) -> None:
         """Handle ship movement based on key presses"""
         curr_x, curr_y = self.rect.center
         

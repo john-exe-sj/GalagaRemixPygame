@@ -170,3 +170,7 @@ class Sprite(Sprite):
         x = cos(angle_rad)
         y = -sin(angle_rad)
         self.trajectory_vx_vy = (x, y)
+
+    def kill(self) -> None:
+        super().kill()
+        del self
