@@ -28,7 +28,7 @@ class Bullet(Sprite):
         #self.pointTowardsMousePointer(Constants.BULLET_ANGLE_OFFSET)
         self.calculateTrajectoryFromAngle(angle) # TODO: Once enemy ships are added. Re-configure or make new bullet class
 
-    def updateBulletPosition(self): 
+    def move(self): 
         """Update bullet position and check if it should be removed.
         Args:
             gameStat: The game state object containing screen dimensions
@@ -53,7 +53,7 @@ def updateBullets(gameStat:GameStatus) -> None:
         gameStat: The game state object containing active bullets
     """
     for bullet in gameStat.player_bullet_sprites: 
-        bullet.updateBulletPosition()
+        bullet.move()
 
 def addBullet(gameStat: GameStatus, coord: tuple, angle: int) -> None:
     """Create and add a new bullet to the game.

@@ -90,6 +90,13 @@ class Sprite(Sprite):
         super().__init__()
         self.angle = 0
 
+    def move(self) -> None:
+        """Abstract method that must be implemented by subclasses to handle movement.
+        This method should update the sprite's position based on its movement logic.
+        TODO: IMPLEMENT WITH EACH INHERTTING SPRITE. THAT NEEDS TO MOVE. 
+        """
+        pass
+
     def initializeImage(self, image_file: str, dimmenions: tuple):
         """Initialize the ship's image and rect"""
         self.original_image = pygame.transform.scale(
