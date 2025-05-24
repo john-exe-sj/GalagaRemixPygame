@@ -6,7 +6,7 @@ from EnemyController import GruntEnemyShip # TODO: generate ships and create the
 from GameField import GameStatus
 from BulletController import updateBullets
 from Sprites import calculate_distance
-from AsteroidController import Asteroid, updateAsteroids
+from AsteroidController import updateAsteroids, generateAsteroids
 from CrosshairController import Crosshair
 
 if __name__ == "__main__": 
@@ -20,9 +20,6 @@ if __name__ == "__main__":
 
   gameStat.addPlayerSprite(ship)
   gameStat.addPlayerSprite(crosshair)
-
-  for _ in range(10): 
-    gameStat.addAsteroidSprite(Asteroid(ship))
 
   
   while gameStat.isGameStillRunning:
@@ -42,6 +39,7 @@ if __name__ == "__main__":
 
     ship.move()
     crosshair.move()
+    generateAsteroids(gameStat, ship)
     updateBullets(gameStat)
     updateAsteroids(gameStat)
     

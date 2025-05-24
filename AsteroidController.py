@@ -13,7 +13,6 @@ class Asteroid(Sprite):
     def __init__(self, ship: Ship):
         """
         Initialize a new asteroid with random properties.
-
         Args:
             ship (Ship): The player's ship, used to calculate initial trajectory
         """
@@ -44,9 +43,15 @@ class Asteroid(Sprite):
         """Position the asteroid randomly within the screen boundaries."""
         screen = pygame.display.get_surface()
         screen_width, screen_height = screen.get_size()
-        
-        self.rect.x = randint(0, screen_width - self.rect.width)
-        self.rect.y = randint(0, screen_height - self.rect.height)
+
+        # refer to PDF
+        left = (-Constants.ASTEROID_SPAWN_PADDING - self.rect.width, -self.rect.width) # left or up
+        up = left # due to pygames inverted coordinate system. 
+        right = (screen_width + self.rect.width, screen_width + self.rect.width + Constants.ASTEROID_SPAWN_PADDING) # right
+        down = (screen_height + self.rect.height, screen_height + self.rect.height + Constants.ASTEROID_SPAWN_PADDING) # down
+
+        self.rect.x = choice((randint(*left),randint(*right))) # chooses either left or right side
+        self.rect.y = choice((randint(*up), randint(*down))) # chooses either up or down side
 
     def move(self) -> None:
         """
@@ -62,19 +67,18 @@ class Asteroid(Sprite):
         self.rotateSprite(self.rotation_speed)
 
         # Handle screen wrapping
-        if self.rect.x < 0: 
-            self.rect.x = screen_width
-        if self.rect.x > screen_width: 
-            self.rect.x = 0
-        if self.rect.y < 0: 
-            self.rect.y = screen_height
-        if self.rect.y > screen_height: 
-            self.rect.y = 0
+        if self.rect.x < (0 - Constants.ASTEROID_SPAWN_PADDING): 
+            self.rect.x = screen_width + self.rect.width
+        if self.rect.x > (screen_width + Constants.ASTEROID_SPAWN_PADDING): 
+            self.rect.x = 0 - self.rect.width
+        if self.rect.y < (0 - Constants.ASTEROID_SPAWN_PADDING): 
+            self.rect.y = screen_height + self.rect.width 
+        if self.rect.y > (screen_height + Constants.ASTEROID_SPAWN_PADDING): 
+            self.rect.y = 0 - self.rect.height
 
 def updateAsteroids(gameStat: GameStatus) -> None:
     """
     Update all asteroids in the game, handling movement and collision detection.
-
     Args:
         gameStat (GameStatus): The current game state containing all game objects
     """
@@ -93,6 +97,25 @@ def updateAsteroids(gameStat: GameStatus) -> None:
             # Remove the colliding bullet
             colliding_bullet.kill()
             continue
+
+asteroid_timer = 0
+def generateAsteroids(gameStat: GameStatus, ship: Ship) -> None:
+    """Responsible for generating asteroids throughout the game
+    Args: 
+        gameStat (GameStatus): The current game state containing all game objects
+        ship (Ship): The ship the player controls
+    """
+    time_limit = randint(*Constants.ASTEROID_SPAWN_TIMER_VALUES)
+    amount_to_spawn = randint(*Constants.ASTEROID_POSSIBLE_SPAWN_AMOUNT)
+    global asteroid_timer
+
+    asteroid_timer += 1
+    if asteroid_timer >= time_limit: 
+        for _ in range(amount_to_spawn): 
+            gameStat.addAsteroidSprite(Asteroid(ship))
+
+        asteroid_timer = 0
+
             
 
 
