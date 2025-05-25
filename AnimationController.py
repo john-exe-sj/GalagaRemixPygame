@@ -20,7 +20,6 @@ def obtainSpriteAnimationImages(filename: str) -> List[pygame.Surface]:
     Return: 
         List[pygame.Surface]: list of animation images pulled from the sprite sheet. 
     """
-
     sprite_sheet = pygame.image.load(filename).convert()
     sprite_sheet_meta_data_file_name = filename.replace("png", "json")
 
@@ -50,7 +49,7 @@ def obtainSpriteAnimationImages(filename: str) -> List[pygame.Surface]:
 
         # give our list of surfaces/images to the main sprite
         return animation_images
-
+    
     except Exception as e: 
         print(e)
         return None
