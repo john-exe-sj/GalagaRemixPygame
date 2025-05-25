@@ -2,8 +2,6 @@
 Bullet Controller Module
 Handles bullet creation, movement, and cleanup in the game.
 """
-
-import math
 import pygame
 from Sprites import Sprite
 import Constants

@@ -1,4 +1,4 @@
-from Sprites import Sprite, calculateTrajectoryVector
+from Sprites import Sprite
 from GameField import GameStatus
 from ShipController import Ship
 from random import choice, randint
