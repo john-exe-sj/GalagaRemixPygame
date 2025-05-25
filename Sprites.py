@@ -91,9 +91,9 @@ class Sprite(Sprite):
         self.angle = 0
 
     def move(self) -> None:
-        """Abstract method that must be implemented by subclasses to handle movement.
-        This method should update the sprite's position based on its movement logic.
-        TODO: IMPLEMENT WITH EACH INHERTTING SPRITE. THAT NEEDS TO MOVE. 
+        """Base movement method that should be overridden by subclasses that need movement.
+        This method provides a common interface for sprite movement in the game.
+        Subclasses should implement their specific movement logic by overriding this method.
         """
         pass
 
