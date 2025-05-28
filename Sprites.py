@@ -43,7 +43,6 @@ def rotate(sprite: Sprite, angle_change: int, offset=0):
 
 def calculateAngleToTarget(origin_x, origin_y, target_x, target_y, old_angle, offset=0): 
     """Calculate the angle needed to point from origin to target.
-    
     Args:
         origin_x: X coordinate of the origin point
         origin_y: Y coordinate of the origin point
@@ -65,13 +64,11 @@ def calculateAngleToTarget(origin_x, origin_y, target_x, target_y, old_angle, of
 
 def calculateTrajectoryVector(origin_x, origin_y, target_x, target_y):
     """Calculate a normalized vector from origin to target.
-    
     Args:
         origin_x: X coordinate of the origin point
         origin_y: Y coordinate of the origin point
         target_x: X coordinate of the target point
-        target_y: Y coordinate of the target point
-        
+        target_y: Y coordinate of the target point   
     Returns:
         tuple: Normalized (x, y) vector pointing from origin to target
     """
@@ -89,6 +86,10 @@ class Sprite(Sprite):
         """Initialize the sprite with default properties."""
         super().__init__()
         self.angle = 0
+        self.should_animate = False
+        self.should_destroy = False
+        self.animation_images = None
+        self.animation_idx = 0
 
     def move(self) -> None:
         """Base movement method that should be overridden by subclasses that need movement.
@@ -181,3 +182,34 @@ class Sprite(Sprite):
     def kill(self) -> None:
         super().kill()
         del self
+
+    def animate(self):
+        """
+        Handles the explosion animation sequence for an asteroid.
+        When triggered, cycles through explosion animation frames and marks the asteroid for destruction
+        when the animation completes.
+        """
+        # Initialize explosion if not already started
+        if not self.should_animate:
+            self.should_animate = True
+            return
+
+        # Check if we have more frames to animate
+        if int(self.animation_idx) - 1 < len(self.animation_images):
+            # Get the current frame and apply transformations
+            current_frame = self.animation_images[int(self.animation_idx) - 1]
+            self.image = pygame.transform.scale(
+                pygame.transform.rotate(current_frame, self.angle),
+                self.dimmensions
+            )
+
+            # Maintain the asteroid's position during animation
+            old_image_rect_center = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect.center = old_image_rect_center
+            # Advance to next frame
+            self.animation_idx += 1
+        else:
+            # Animation complete - mark for destruction
+            self.should_animate = False
+            self.should_destroy = True

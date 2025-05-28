@@ -2,10 +2,8 @@ import pygame, sys
 from pygame.locals import QUIT
 import Constants
 from ShipController import Ship
-from EnemyController import GruntEnemyShip # TODO: generate ships and create their AI
 from GameField import GameStatus
 from BulletController import updateBullets
-from Sprites import calculate_distance
 from AsteroidController import updateAsteroids, generateAsteroids
 from CrosshairController import Crosshair
 
@@ -42,6 +40,9 @@ if __name__ == "__main__":
     generateAsteroids(gameStat, ship)
     updateBullets(gameStat)
     updateAsteroids(gameStat)
+    gameStat.handleCollisions()
+    gameStat.handleAnimations()
+    gameStat.handleDestruction()
     SCREEN.fill(Constants.SCREEN_COLOR)
     gameStat.updateSprites(SCREEN)
     pygame.display.flip()

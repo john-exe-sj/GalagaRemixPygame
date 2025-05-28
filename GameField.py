@@ -2,6 +2,7 @@ import pygame
 from typing import List
 from Sprites import Sprite
 from AnimationController import obtainSpriteAnimationImages
+from SoundController import playExplosionSound
 
 class GameStatus(): 
 
@@ -48,3 +49,50 @@ class GameStatus():
 
   def getExplosionAnimationImage(self): 
     return self.explosion_animation_images
+  
+  
+  def handleAsteroidBulletCollision(self, asteroid, bullet): 
+    """
+    Handles the collision between an asteroid and a bullet.
+    Reduces asteroid health, triggers explosion animation when health reaches zero,
+    and manages the asteroid's animation state.
+    Args:
+        asteroid: The asteroid sprite that was hit
+        bullet: The bullet sprite that hit the asteroid
+    """
+    if bullet:
+        # Reduce asteroid health and remove bullet
+        asteroid.health -= 1
+        bullet.kill()
+
+        # Trigger explosion when health reaches zero
+        if asteroid.health == 0:
+            asteroid.should_animate = True
+            asteroid.animation_images = self.getExplosionAnimationImage()
+            playExplosionSound()
+
+  def handleCollisions(self):
+    """
+    Handles all collision detection and response in the game.
+    """
+    # Handle bullet-asteroid collisions
+    for asteroid in self.asteroid_sprites:
+        for bullet in self.player_bullet_sprites:
+            if asteroid.rect.colliderect(bullet.rect):
+                self.handleAsteroidBulletCollision(asteroid, bullet)
+        
+  def handleAnimations(self): 
+    """
+    Updates all sprite animations in the game.
+    """
+    for asteroid in self.asteroid_sprites: 
+        if asteroid.should_animate: 
+            asteroid.animate()
+
+  def handleDestruction(self): 
+    """
+    Removes sprites that have completed their destruction sequence.
+    """
+    for asteroid in self.asteroid_sprites: 
+        if asteroid.should_destroy: 
+            asteroid.kill()
