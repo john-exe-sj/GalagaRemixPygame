@@ -1,10 +1,10 @@
 from Sprites import Sprite
 from GameField import GameStatus
 from ShipController import Ship
+from SoundController import playExplosionSound
 from random import choice, randint
 import pygame
 import Constants
-
 class Asteroid(Sprite):
     """
     Represents an asteroid in the game. Asteroids are destructible objects that move across the screen
@@ -20,9 +20,10 @@ class Asteroid(Sprite):
 
         # Initialize asteroid with random size and image
         random_size = randint(*Constants.ASTEROID_DIMMENSIONS)
+        self.dimmensions = (random_size, random_size)
         self.initializeImage(
             choice(Constants.ASTEROID_IMAGE_FILES), 
-            (random_size, random_size), 
+            self.dimmensions, 
         )
         
         # Set initial position and movement properties
@@ -30,6 +31,10 @@ class Asteroid(Sprite):
         self.calculateTrajectoryToSprite(ship)
         self.speed = randint(*Constants.ASTEROID_SPEED)
         self.rotation_speed = randint(*Constants.ASTEROID_ROTATION_SPEED)
+        self.should_explode = False
+        self.should_destroy_asteroid = False
+        self.explosion_animation_images = None
+        self.explosion_animation_idx = 0
 
         # Set health based on size (larger asteroids have more health)
         if 100 <= random_size <= 150: 
@@ -76,28 +81,73 @@ class Asteroid(Sprite):
         if self.rect.y > (screen_height + Constants.ASTEROID_SPAWN_PADDING): 
             self.rect.y = 0 - self.rect.height
 
+    def animateExplosion(self):
+        """
+        Handles the explosion animation sequence for an asteroid.
+        When triggered, cycles through explosion animation frames and marks the asteroid for destruction
+        when the animation completes.
+        """
+        # Initialize explosion if not already started
+        if not self.should_explode:
+            self.should_explode = True
+            return
+
+        # Check if we have more frames to animate
+        if int(self.explosion_animation_idx) - 1 < len(self.explosion_animation_images):
+            # Get the current frame and apply transformations
+            current_frame = self.explosion_animation_images[int(self.explosion_animation_idx) - 1]
+            self.image = pygame.transform.scale(
+                pygame.transform.rotate(current_frame, self.angle),
+                self.dimmensions
+            )
+
+            # Maintain the asteroid's position during animation
+            old_image_rect_center = self.rect.center
+            self.rect = self.image.get_rect()
+            self.rect.center = old_image_rect_center
+
+            # Advance to next frame
+            self.explosion_animation_idx += 1
+        else:
+            # Animation complete - mark for destruction
+            self.should_explode = False
+            self.should_destroy_asteroid = True
+
 def updateAsteroids(gameStat: GameStatus) -> None:
     """
-    Update all asteroids in the game, handling movement and collision detection.
+    Updates all asteroids in the game, handling movement, collision detection, and explosion animations.
+    
     Args:
-        gameStat (GameStatus): The current game state containing all game objects
+        gameStat (GameStatus): The current game state containing all game objects and sprites
     """
     for asteroid in gameStat.asteroid_sprites:
-        asteroid.move()
-
-        # Check for collisions with player bullets
+        # Handle collision with player bullets
         colliding_bullet = asteroid.rect.collideobjects(list(gameStat.player_bullet_sprites))
         if colliding_bullet:
-            # Handle asteroid damage
-            if asteroid.health == 0:
-                asteroid.kill()
-            else:
-                asteroid.health -= 1
+            # Reduce asteroid health and remove bullet
+            asteroid.health -= 1
             
             # Remove the colliding bullet
             colliding_bullet.kill()
-            continue
 
+            # Trigger explosion when health reaches zero
+            if asteroid.health == 0:
+                asteroid.should_explode = True
+                playExplosionSound()
+
+        # Handle asteroid state
+        if asteroid.should_explode:
+            # Initialize and play explosion animation
+            asteroid.explosion_animation_images = gameStat.getExplosionAnimationImage()
+            asteroid.animateExplosion()
+        elif asteroid.should_destroy_asteroid and asteroid in gameStat.asteroid_sprites:
+            # Remove asteroid after explosion animation completes
+            asteroid.kill()
+        else:
+            # Normal asteroid movement
+            asteroid.move()
+
+# Timer for asteroid spawning
 asteroid_timer = 0
 def generateAsteroids(gameStat: GameStatus, ship: Ship) -> None:
     """Responsible for generating asteroids throughout the game
@@ -110,14 +160,10 @@ def generateAsteroids(gameStat: GameStatus, ship: Ship) -> None:
     global asteroid_timer
 
     asteroid_timer += 1
+    
     if asteroid_timer >= time_limit: 
         for _ in range(amount_to_spawn): 
             gameStat.addAsteroidSprite(Asteroid(ship))
-
         asteroid_timer = 0
-
-            
-
-
     
         

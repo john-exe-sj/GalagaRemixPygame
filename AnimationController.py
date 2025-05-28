@@ -37,12 +37,12 @@ def obtainSpriteAnimationImages(filename: str) -> List[pygame.Surface]:
         
         for i in range(num_frames):
             # obtains position and dimmensions of an image contained in a sheet.
-            sprite_data = data['frames'][image_names[i]] 
+            sprite_data = data['frames'][image_names[i]]["frame"]
             x_pos, y_pos, width, height = sprite_data["x"], sprite_data["y"], sprite_data["w"], sprite_data["h"]
 
             # creates a blank surface and sets to our background color. 
             sprite = pygame.Surface((width, height))
-            sprite.set_colorkey(Constants.SCREEN_COLOR)
+            sprite.set_colorkey((0, 0, 0))  # Set black as the transparent color
             # blit the specific section from the sprite sheet to our new surface
             sprite.blit(sprite_sheet, (0, 0), (x_pos, y_pos, width, height))
             animation_images.append(sprite)

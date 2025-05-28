@@ -23,11 +23,11 @@ class Ship(Sprite):
         """Set initial ship position"""
         self.rect.center  = pygame.display.get_surface().get_rect().center
 
-    def move(self) -> None: 
+    def move(self, gameStat: GameStatus) -> None: 
         """Update ship position based on keyboard input and screen boundaries.
         
         Args:
-            gameStat: The game state object containing screen dimensions
+            gameStat: The game state object containing screen dimensions and animation images
         """
         self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
         self.handleMovement()

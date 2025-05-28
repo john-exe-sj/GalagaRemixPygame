@@ -37,12 +37,11 @@ if __name__ == "__main__":
             ship.generateBullet(gameStat)
 
 
-    ship.move()
+    ship.move(gameStat)
     crosshair.move()
     generateAsteroids(gameStat, ship)
     updateBullets(gameStat)
     updateAsteroids(gameStat)
-    
     SCREEN.fill(Constants.SCREEN_COLOR)
     gameStat.updateSprites(SCREEN)
     pygame.display.flip()
