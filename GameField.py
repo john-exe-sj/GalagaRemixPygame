@@ -69,6 +69,7 @@ class GameStatus():
         if asteroid.health == 0:
             asteroid.should_animate = True
             asteroid.animation_images = self.getExplosionAnimationImage()
+            playExplosionSound()
 
 
   def handleShipAsteroidCollision(self, ship):
