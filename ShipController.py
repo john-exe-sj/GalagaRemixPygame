@@ -6,7 +6,6 @@ Handles player ship movement, rotation, and bullet generation.
 import pygame
 from Sprites import Sprite
 import Constants
-from GameField import GameStatus
 from BulletController import addBullet
 
 class Ship(Sprite):
@@ -18,12 +17,18 @@ class Ship(Sprite):
         self.initializeImage(Constants.SHIP_IMAGE_FILE, Constants.SHIP_DIMMENSION)
         self.initializePosition()
         self.velocity = Constants.SHIP_VELOCITY
+        self.dimmensions = Constants.SHIP_DIMMENSION
+        self.health = 3
         
     def initializePosition(self) -> None:
         """Set initial ship position"""
-        self.rect.center  = pygame.display.get_surface().get_rect().center
+          # Create a smaller collision rectangle
+        self.rect.center = pygame.display.get_surface().get_rect().center
+        self.collision_rect = pygame.Rect(0, 0, self.rect.width * 0.4, self.rect.height * 0.4)
+        self.collision_rect.center = self.rect.center
+        self.collision_rect.center = self.rect.center
 
-    def move(self, gameStat: GameStatus) -> None: 
+    def move(self) -> None: 
         """Update ship position based on keyboard input and screen boundaries.
         
         Args:
@@ -31,29 +36,39 @@ class Ship(Sprite):
         """
         self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
         self.handleMovement()
+        # Update collision rectangle position
+        self.collision_rect.center = self.rect.center
 
     def handleMovement(self) -> None:
         """Handle ship movement based on key presses"""
         curr_x, curr_y = self.rect.center
-        
+
         width_of_screen, height_of_screen = pygame.display.get_surface().get_size()
 
         keys = pygame.key.get_pressed()
         
-        # Handle movement based on key presses and screen boundaries
-        if keys[pygame.K_a] and curr_x >= 0:  # Left
-            self.rect.x -= self.velocity 
+        if not self.should_animate:
+            # Handle movement based on key presses and screen boundaries
+            if keys[pygame.K_a] and curr_x >= 0:  # Left
+                self.rect.x -= self.velocity 
         
-        if keys[pygame.K_d] and curr_x <= width_of_screen:  # Right
-            self.rect.x += self.velocity 
+            if keys[pygame.K_d] and curr_x <= width_of_screen:  # Right
+                self.rect.x += self.velocity 
 
-        if keys[pygame.K_w] and curr_y >= 0:  # Up
-            self.rect.y -= self.velocity
+            if keys[pygame.K_w] and curr_y >= 0:  # Up
+                self.rect.y -= self.velocity
 
-        if keys[pygame.K_s] and curr_y <= height_of_screen:  # Down
-            self.rect.y += self.velocity
+            if keys[pygame.K_s] and curr_y <= height_of_screen:  # Down
+                self.rect.y += self.velocity
 
-    def generateBullet(self, gameStat: GameStatus) -> None: 
+    def animate(self):
+        super().animate()
+        if self.health >= 0: 
+            self.should_destroy = False
+        else: 
+            self.should_destroy = True
+
+    def generateBullet(self, gameStat) -> None: 
         """Create a new bullet at the ship's current position and angle.
         Args:
             gameStat: The game state object

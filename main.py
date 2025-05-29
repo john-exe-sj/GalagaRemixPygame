@@ -35,7 +35,7 @@ if __name__ == "__main__":
             ship.generateBullet(gameStat)
 
 
-    ship.move(gameStat)
+    ship.move()
     crosshair.move()
     generateAsteroids(gameStat, ship)
     updateBullets(gameStat)

@@ -32,6 +32,10 @@ class Asteroid(Sprite):
         self.speed = randint(*Constants.ASTEROID_SPEED)
         self.rotation_speed = randint(*Constants.ASTEROID_ROTATION_SPEED)
 
+        # Create a smaller collision rectangle
+        self.collision_rect = pygame.Rect(0, 0, self.rect.width * 0.6, self.rect.height * 0.6)
+        self.collision_rect.center = self.rect.center
+
         # Set health based on size (larger asteroids have more health)
         if 100 <= random_size <= 150: 
             self.health = 2
@@ -70,6 +74,9 @@ class Asteroid(Sprite):
         self.rect.x += v_x * self.speed
         self.rect.y += v_y * self.speed
         self.rotateSprite(self.rotation_speed)
+        
+        # Update collision rectangle position
+        self.collision_rect.center = self.rect.center
 
         # Handle screen wrapping
         if self.rect.x < (0 - Constants.ASTEROID_SPAWN_PADDING): 

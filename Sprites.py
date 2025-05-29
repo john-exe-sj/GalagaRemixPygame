@@ -180,6 +180,9 @@ class Sprite(Sprite):
         self.trajectory_vx_vy = (x, y)
 
     def kill(self) -> None:
+        """
+        Destroys sprite, takes it out of any groups it is in and deletes it for memory allocation.
+        """
         super().kill()
         del self
 
@@ -189,11 +192,7 @@ class Sprite(Sprite):
         When triggered, cycles through explosion animation frames and marks the asteroid for destruction
         when the animation completes.
         """
-        # Initialize explosion if not already started
-        if not self.should_animate:
-            self.should_animate = True
-            return
-
+        print("Here")
         # Check if we have more frames to animate
         if int(self.animation_idx) - 1 < len(self.animation_images):
             # Get the current frame and apply transformations
@@ -213,3 +212,4 @@ class Sprite(Sprite):
             # Animation complete - mark for destruction
             self.should_animate = False
             self.should_destroy = True
+            self.animation_idx = 0

@@ -3,7 +3,7 @@ from typing import List
 from Sprites import Sprite
 from AnimationController import obtainSpriteAnimationImages
 from SoundController import playExplosionSound
-
+import ShipController
 class GameStatus(): 
 
   def __init__(self):
@@ -69,7 +69,15 @@ class GameStatus():
         if asteroid.health == 0:
             asteroid.should_animate = True
             asteroid.animation_images = self.getExplosionAnimationImage()
-            playExplosionSound()
+
+
+  def handleShipAsteroidCollision(self, ship):
+      if not ship.should_animate: 
+          ship.should_animate = True
+          ship.animation_images = self.getExplosionAnimationImage()
+          ship.health -= 1
+          playExplosionSound()
+      
 
   def handleCollisions(self):
     """
@@ -78,9 +86,17 @@ class GameStatus():
     # Handle bullet-asteroid collisions
     for asteroid in self.asteroid_sprites:
         for bullet in self.player_bullet_sprites:
-            if asteroid.rect.colliderect(bullet.rect):
-                self.handleAsteroidBulletCollision(asteroid, bullet)
-        
+          if asteroid.collision_rect.colliderect(bullet.rect):
+            self.handleAsteroidBulletCollision(asteroid, bullet)
+
+    for sprite in self.player_sprites: 
+        if isinstance(sprite, ShipController.Ship):
+            for asteroid in self.asteroid_sprites:
+                  if sprite.collision_rect.colliderect(asteroid.collision_rect):
+                      self.handleShipAsteroidCollision(sprite)
+                      self.asteroid_sprites.empty()
+      
+
   def handleAnimations(self): 
     """
     Updates all sprite animations in the game.
@@ -89,10 +105,24 @@ class GameStatus():
         if asteroid.should_animate: 
             asteroid.animate()
 
+    for sprite in self.player_sprites:
+        if isinstance(sprite, ShipController.Ship):
+          print(sprite.should_animate)
+        if isinstance(sprite, ShipController.Ship) and sprite.should_animate:
+            sprite.animate()
+
   def handleDestruction(self): 
     """
     Removes sprites that have completed their destruction sequence.
     """
     for asteroid in self.asteroid_sprites: 
         if asteroid.should_destroy: 
-            asteroid.kill()
+          asteroid.kill()
+
+    for bullet in self.player_bullet_sprites: 
+       if bullet.should_destroy: 
+          bullet.kill()
+
+    for player_sprite  in self.player_sprites: 
+       if player_sprite.should_destroy: 
+          player_sprite.kill()

@@ -38,12 +38,12 @@ class Bullet(Sprite):
         # Get screen dimensions
         width_of_screen, height_of_screen = pygame.display.get_surface().get_size()
         
-        # Remove bullet if it goes off screen
+        # Mark bullet for removal if it goes off screen.
         if (self.rect.y <= 0 or 
             self.rect.y >= height_of_screen or 
             self.rect.x <= 0 or 
             self.rect.x >= width_of_screen):
-            removeBullet(self)
+            self.should_destroy = True
 
 def updateBullets(gameStat:GameStatus) -> None: 
     """Update all active bullets in the game.
@@ -64,11 +64,4 @@ def addBullet(gameStat: GameStatus, coord: tuple, angle: int) -> None:
     gameStat.addPlayerBulletSprite(newBullet)
     playPlayerLaserShot()
   
-def removeBullet(bullet: Bullet): 
-    """Remove a bullet from the game and ensure proper cleanup.
-    Args:
-        bullet (Bullet): The bullet to remove
-    """
-    bullet.kill()  # Removes from all sprite groups
-    del bullet     # Explicitly delete the reference
 
