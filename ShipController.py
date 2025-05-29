@@ -65,7 +65,7 @@ class Ship(Sprite):
         super().animate()
         if self.health >= 0: 
             self.should_destroy = False
-        else: 
+        elif self.health < -1: 
             self.should_destroy = True
 
     def generateBullet(self, gameStat) -> None: 
