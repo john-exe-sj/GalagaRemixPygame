@@ -3,6 +3,7 @@ from typing import List
 from Sprites import Sprite
 from AnimationController import obtainSpriteAnimationImages
 from SoundController import playExplosionSound
+from ButtonController import ResetButton
 import ShipController
 class GameStatus(): 
 
@@ -127,3 +128,14 @@ class GameStatus():
     for player_sprite  in self.player_sprites: 
        if player_sprite.should_destroy: 
           player_sprite.kill()
+
+  def handleReset(self):
+
+    is_player_present = False
+    for sprite in self.player_sprites: 
+        if isinstance(sprite, ShipController.Ship):
+          is_player_present = True
+
+    if not is_player_present:
+        self.addPlayerSprite(ResetButton())
+       
