@@ -108,8 +108,6 @@ class GameStatus():
             asteroid.animate()
 
     for sprite in self.player_sprites:
-        if isinstance(sprite, ShipController.Ship):
-          print(sprite.should_animate)
         if isinstance(sprite, ShipController.Ship) and sprite.should_animate:
             sprite.animate()
 
@@ -130,12 +128,28 @@ class GameStatus():
           player_sprite.kill()
 
   def handleReset(self):
-
+    # TODO: Re-implement and clean up. 
     is_player_present = False
+    is_reset_button_present = False
     for sprite in self.player_sprites: 
         if isinstance(sprite, ShipController.Ship):
           is_player_present = True
 
-    if not is_player_present:
-        self.addPlayerSprite(ResetButton())
+        if isinstance(sprite, ResetButton):
+           is_reset_button_present = True
+
+    reset_button = None
+    if not is_player_present and not is_reset_button_present:
+        reset_button = ResetButton()
+        self.addPlayerSprite(reset_button)   
+    elif is_player_present:
+      for sprite in self.player_sprites: 
+        if isinstance(sprite, ResetButton):
+           sprite.kill()
+    elif is_reset_button_present: 
+       for sprite in self.player_sprites: 
+        if isinstance(sprite, ResetButton):
+          if sprite.clicked():
+            print("From handleReset, reset button has been clicked")
+            return
        

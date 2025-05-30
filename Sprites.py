@@ -192,7 +192,6 @@ class Sprite(Sprite):
         When triggered, cycles through explosion animation frames and marks the asteroid for destruction
         when the animation completes.
         """
-        print("Here")
         # Check if we have more frames to animate
         if int(self.animation_idx) - 1 < len(self.animation_images):
             # Get the current frame and apply transformations
