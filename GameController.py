@@ -45,7 +45,7 @@ class Game():
         self.isGameStillRunning = True
         self.clock = pygame.time.Clock()
         self.screen = screen
-        self.explosion_animation_images = obtainSpriteAnimationImages('./images/explosion/8BitExplosionData.png')
+        self.explosion_animation_images = obtainSpriteAnimationImages(Constants.EXPLOSION_IMAGE_FILE)
 
         self.player_ship = Ship()
         self.crosshair = Crosshair()

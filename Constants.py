@@ -30,3 +30,4 @@ CROSSHAIR_IMAGE_FILE = "./images/crosshair.png"
 PLAYER_LASER_SOUND_FILE = "./sounds/laser-2.wav"
 ENEMY_LASER_SOUND_FILE = "./sounds/laser-1.wav"
 EXPLOSION_SOUND_FILE = "./sounds/explosion.wav"
+EXPLOSION_IMAGE_FILE = './images/explosion/8BitExplosionData.png'
