@@ -1,10 +1,8 @@
-from Sprites import Sprite
-from GameField import GameStatus
-from ShipController import Ship
-from SoundController import playExplosionSound
-from random import choice, randint
 import pygame
 import Constants
+from Sprites import Sprite
+from ShipController import Ship
+from random import choice, randint
 class Asteroid(Sprite):
     """
     Represents an asteroid in the game. Asteroids are destructible objects that move across the screen
@@ -88,25 +86,13 @@ class Asteroid(Sprite):
         if self.rect.y > (screen_height + Constants.ASTEROID_SPAWN_PADDING): 
             self.rect.y = 0 - self.rect.height
 
-def updateAsteroids(gameStat: GameStatus) -> None:
-    """
-    Updates all asteroid positions in the game.
-    Only moves asteroids that are not currently animating.
-    
-    Args:
-        gameStat (GameStatus): The current game state containing all game objects
-    """
-    for asteroid in gameStat.asteroid_sprites:
-        if not asteroid.should_animate: 
-            asteroid.move()
-
 # Timer for asteroid spawning
 asteroid_timer = 0
-def generateAsteroids(gameStat: GameStatus, ship: Ship) -> None:
+def generateAsteroids(game, ship: Ship) -> None:
     """
     Generates new asteroids at random intervals.
     Args:
-        gameStat (GameStatus): The current game state containing all game objects
+        game (Game): The current game state containing all game objects
         ship (Ship): The player's ship, used to calculate asteroid trajectories
     """
     time_limit = randint(*Constants.ASTEROID_SPAWN_TIMER_VALUES)
@@ -117,7 +103,7 @@ def generateAsteroids(gameStat: GameStatus, ship: Ship) -> None:
     
     if asteroid_timer >= time_limit: 
         for _ in range(amount_to_spawn): 
-            gameStat.addAsteroidSprite(Asteroid(ship))
+            game.addAsteroidSprite(Asteroid(ship))
         asteroid_timer = 0
     
         

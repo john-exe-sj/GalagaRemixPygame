@@ -4,8 +4,8 @@ Handles player ship movement, rotation, and bullet generation.
 """
 
 import pygame
-from Sprites import Sprite
 import Constants
+from Sprites import Sprite
 from BulletController import addBullet
 
 class Ship(Sprite):
@@ -34,8 +34,9 @@ class Ship(Sprite):
         Args:
             gameStat: The game state object containing screen dimensions and animation images
         """
-        self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
-        self.handleMovement()
+        if not self.should_animate: 
+            self.pointTowardsMousePointer(Constants.SHIP_ANGLE_OFFSET)
+            self.handleMovement()
         # Update collision rectangle position
         self.collision_rect.center = self.rect.center
 
@@ -47,19 +48,15 @@ class Ship(Sprite):
 
         keys = pygame.key.get_pressed()
         
-        if not self.should_animate:
-            # Handle movement based on key presses and screen boundaries
-            if keys[pygame.K_a] and curr_x >= 0:  # Left
-                self.rect.x -= self.velocity 
-        
-            if keys[pygame.K_d] and curr_x <= width_of_screen:  # Right
-                self.rect.x += self.velocity 
-
-            if keys[pygame.K_w] and curr_y >= 0:  # Up
-                self.rect.y -= self.velocity
-
-            if keys[pygame.K_s] and curr_y <= height_of_screen:  # Down
-                self.rect.y += self.velocity
+        # Handle movement based on key presses and screen boundaries
+        if keys[pygame.K_a] and curr_x >= 0:  # Left
+            self.rect.x -= self.velocity         
+        if keys[pygame.K_d] and curr_x <= width_of_screen:  # Right
+            self.rect.x += self.velocity 
+        if keys[pygame.K_w] and curr_y >= 0:  # Up
+            self.rect.y -= self.velocity
+        if keys[pygame.K_s] and curr_y <= height_of_screen:  # Down
+            self.rect.y += self.velocity
 
     def animate(self):
         super().animate()
@@ -67,10 +64,3 @@ class Ship(Sprite):
             self.should_destroy = False
         elif self.health < -1: 
             self.should_destroy = True
-
-    def generateBullet(self, gameStat) -> None: 
-        """Create a new bullet at the ship's current position and angle.
-        Args:
-            gameStat: The game state object
-        """
-        addBullet(gameStat, self.rect.center, self.angle + Constants.SHIP_ANGLE_OFFSET) # add bullet into the game, giving the ship's center position/coordinates. 

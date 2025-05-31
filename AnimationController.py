@@ -1,8 +1,6 @@
-from typing import List
-import Constants
 import pygame
 import json
-
+from typing import List
 """
 Tutorial References and Credits: 
     CDcodes: "Pygame Sprite Sheet Tutorial: How to Load, Parse, and Use Sprite Sheets"

@@ -1,5 +1,4 @@
 import pygame
-import Constants
 from Sprites import Sprite
 #from GameField import GameStatus
 
