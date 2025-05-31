@@ -20,7 +20,7 @@ def main():
         game.handleCollisions()
         game.handleAnimations()
         game.handleDestruction()
-        game.handleReset()
+        game.handleButtonGeneration()
         game.updateSprites()
 
 

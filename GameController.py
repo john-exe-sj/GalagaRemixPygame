@@ -163,7 +163,7 @@ class Game():
             if player_sprite.should_destroy: 
                 player_sprite.kill()
 
-    def handleReset(self):
+    def handleButtonGeneration(self):
         """Handle game reset logic and reset button management."""
         # TODO: Re-implement and clean up. 
         is_player_present = False
@@ -199,7 +199,6 @@ class Game():
                     for sprite in self.player_sprites: 
                         if isinstance(sprite, ResetButton):
                             if sprite.clicked():
-                                print("From Event, reset button has been clicked")
                                 self.player_ship = Ship()
                                 self.addPlayerSprite(self.player_ship)
                                 for asteroid in self.asteroid_sprites:
