@@ -17,3 +17,6 @@ class ResetButton(Button):
         super().__init__()
         self.initializeImage(Constants.RESET_BUTTON_IMAGE, Constants.RESET_BUTTON_DIMMENSION)
         self.rect.center = pygame.display.get_surface().get_rect().center
+
+# TODO-OPTIONAL: 
+#    - Create a QuitButton class that inherits from Button, place it below ResetButton

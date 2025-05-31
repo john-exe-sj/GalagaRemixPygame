@@ -56,7 +56,7 @@ class Asteroid(Sprite):
         right = (screen_width + self.rect.width, screen_width + self.rect.width + Constants.ASTEROID_SPAWN_PADDING)
         down = (screen_height + self.rect.height, screen_height + self.rect.height + Constants.ASTEROID_SPAWN_PADDING)
 
-        # Randomly choose spawn position from edges
+        # Randomly choose spawn position from edges, can be improved.
         self.rect.x = choice((randint(*left), randint(*right)))
         self.rect.y = choice((randint(*up), randint(*down)))
 
