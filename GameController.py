@@ -41,7 +41,11 @@ class Game():
         self.player_bullet_sprites = pygame.sprite.Group()
         self.enemy_sprites = pygame.sprite.Group()
         self.asteroid_sprites = pygame.sprite.Group()
+
+        # TODO-OPTIONAL:
+        #   keep track of score and display it onto the screen.
         self.score = 0
+
         self.isGameStillRunning = True
         self.clock = pygame.time.Clock()
         self.screen = screen
@@ -165,7 +169,9 @@ class Game():
 
     def handleButtonGeneration(self):
         """Handle game reset logic and reset button management."""
-        # TODO: Re-implement and clean up. 
+        # TODO-OPTIONAL: 
+        #   - Re-implement and clean up. 
+        #   - Add code to generate a QuitButton
         is_player_present = False
         is_reset_button_present = False
 
@@ -203,6 +209,10 @@ class Game():
                                 self.addPlayerSprite(self.player_ship)
                                 for asteroid in self.asteroid_sprites:
                                     asteroid.should_destroy = True 
+
+                        # TODO-OPTIONAL: 
+                        #    - Trigger a "quit" if the QuitButton has been "clicked" similarly to how ResetButton was "clicked"
+                        #    - Trigger a sound when buttons are clicked
                   
     def handleSpriteMotion(self): 
         for player_sprite in self.player_sprites: 

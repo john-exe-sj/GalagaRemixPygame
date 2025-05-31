@@ -12,3 +12,6 @@ def playPlayerLaserShot():
 
 def playExplosionSound(): 
     mixer.Sound.play(explosion_sound)
+
+# TODO-OPTIONAL: 
+#    - Create a sound function that plays when a button is "clicked"
